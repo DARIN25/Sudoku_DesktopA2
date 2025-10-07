@@ -16,6 +16,7 @@ def draw():
     drawGrid()
     drawNumpadGrid()
     drawNumpadNum()
+    drawNum()
 
 def drawGrid():
     stroke(0)
@@ -150,4 +151,17 @@ def checkValid(arr, num, row, col):
             return False
         i+=1
     return True
+
+def drawNum():
+    textAlign(CENTER,CENTER)
+    textSize(24)
+    fill(0)
+    row=0
+    while row<9:
+        col=0
+        while col<9:
+            if grid[row][col] != 0:
+                text(grid[row][col], col*gridSize + gridSize/2, row*gridSize + gridSize/2)
+            col+=1
+        row+=1
 
