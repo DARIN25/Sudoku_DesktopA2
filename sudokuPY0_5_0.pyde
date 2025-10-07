@@ -165,3 +165,47 @@ def drawNum():
             col+=1
         row+=1
 
+
+def mousePressed():
+    global selectRow, selectCol, selectNum
+    if mouseY < 9*gridSize and mouseX < 9*gridSize:
+        if not locked[floor(mouseY/gridSize)][floor(mouseX/gridSize)]:
+            selectCol = floor(mouseX/gridSize)
+            selectRow = floor(mouseY/gridSize)
+        else:
+            print("Can't change this number")
+            
+    if mouseY < 400 and mouseX > 600 and mouseX < 900:
+        if mouseY < 100:
+            if mouseX < 700:
+                selectNum = 1
+            elif mouseX < 800:
+                selectNum = 2
+            else:
+                selectNum = 3
+        elif mouseY < 200:
+            if mouseX < 700:
+                selectNum = 4
+            elif mouseX < 800:
+                selectNum = 5
+            else:
+                selectNum = 6
+        elif mouseY < 300:
+            if mouseX < 700:
+                selectNum = 7
+            elif mouseX < 800:
+                selectNum = 8
+            else:
+                selectNum = 9
+        else:
+            if mouseX > 700 and mouseX < 800:
+                selectNum = 0
+                
+    if selectRow != -1 and selectCol != -1:
+        if selectNum == 0 or checkValid(grid, selectNum, selectRow, selectCol):
+            grid[selectRow][selectCol] = selectNum
+            selectNum = 0
+        else:
+            if selectRow != -1 and selectCol != -1:
+                print("Invalid number")
+                
