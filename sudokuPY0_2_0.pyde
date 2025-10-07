@@ -1,4 +1,4 @@
-gridSize = 50
+idSize = 50
 gridNumSize = 100
 selectRow = -1
 selectCol = -1
@@ -14,7 +14,7 @@ def setup():
 def draw():
     background(255)
     drawGrid()
-
+    drawNumpadGrid()
 
 def drawGrid():
     stroke(0)
@@ -27,3 +27,17 @@ def drawGrid():
         line(i*gridSize, 0, i*gridSize, 9*gridSize)
         line(0, i*gridSize, 9*gridSize, i*gridSize)
         i+=1
+        
+        
+def drawNumpadGrid():
+    stroke(0)
+    strokeWeight(3)
+    i=0
+    while i<4:
+        line(i*gridNumSize+600,0,i*gridNumSize+600,4*gridNumSize)
+        i+=1
+    i=0
+    while i<5:
+        line(600,i*gridNumSize,3*gridNumSize+600,i*gridNumSize)
+        i+=1
+    
