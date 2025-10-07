@@ -13,6 +13,7 @@ def setup():
 
 def draw():
     background(255)
+    drawGameUI()
     drawGrid()
     drawNumpadGrid()
     drawNumpadNum()
@@ -209,3 +210,19 @@ def mousePressed():
             if selectRow != -1 and selectCol != -1:
                 print("Invalid number")
                 
+def drawGameUI():
+    if selectRow != -1 and selectCol != -1:
+        fill(200, 200, 255, 100)
+        noStroke()
+        rect(selectCol*gridSize, selectRow*gridSize, gridSize, gridSize)
+    row=0
+    while row<9:
+        col=0
+        while col<9:
+            if locked[row][col]:
+                fill(225)
+                noStroke()
+                rect(col*gridSize, row*gridSize, gridSize, gridSize)
+            col+=1
+        row+=1
+        
