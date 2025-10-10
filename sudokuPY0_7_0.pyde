@@ -6,7 +6,8 @@ selectNum = 0
 grid = [[0 for _ in range(9)] for _ in range(9)]
 locked = [[False for _ in range(9)] for _ in range(9)]
 answer = True
-
+stage = 0
+menuY = 0
 
 def setup():
     size(1000,500)
@@ -14,12 +15,17 @@ def setup():
 
 
 def draw():
-    background(255)
-    drawGameUI()
-    drawGrid()
-    drawNumpadGrid()
-    drawNum()
-    drawNumpadNum()
+    if stage == 0:
+        menuY = height
+        background(0)
+        openMenu()
+    if stage == 1:
+        background(255)
+        drawGameUI()
+        drawGrid()
+        drawNumpadGrid()
+        drawNum()
+        drawNumpadNum()
 
 
 def drawGrid():
@@ -101,51 +107,55 @@ def checkValid(arr, num, row, col):
 
 
 def mousePressed():
+    if stage == 0:
+        if mouseX >= width/2-100 and mouseY >= 230 and mouseX <= width/2+100 and mouseY <= 270:
+            stage = 1
     global selectRow, selectCol, selectNum, answer
-    if mouseY < 9*gridSize and mouseX < 9*gridSize:
-        if not locked[floor(mouseY/gridSize)][floor(mouseX/gridSize)]:
-            selectCol = floor(mouseX/gridSize)
-            selectRow = floor(mouseY/gridSize)
-            answer = True
-        else:
-            print("Can't change this number")
+    if stage == 1:
+        if mouseY < 9*gridSize and mouseX < 9*gridSize:
+            if not locked[floor(mouseY/gridSize)][floor(mouseX/gridSize)]:
+                selectCol = floor(mouseX/gridSize)
+                selectRow = floor(mouseY/gridSize)
+                answer = True
+            else:
+                print("Can't change this number")
             
-    if mouseY < 400 and mouseX > 600 and mouseX < 900:
-        if mouseY < 100:
-            if mouseX < 700:
-                selectNum = 1
-            elif mouseX < 800:
-                selectNum = 2
+        if mouseY < 400 and mouseX > 600 and mouseX < 900:
+            if mouseY < 100:
+                if mouseX < 700:
+                    selectNum = 1
+                elif mouseX < 800:
+                    selectNum = 2
+                else:
+                    selectNum = 3
+            elif mouseY < 200:
+                if mouseX < 700:
+                    selectNum = 4
+                elif mouseX < 800:
+                    selectNum = 5
+                else:
+                    selectNum = 6
+            elif mouseY < 300:
+                if mouseX < 700:
+                    selectNum = 7
+                elif mouseX < 800:
+                    selectNum = 8
+                else:
+                    selectNum = 9
             else:
-                selectNum = 3
-        elif mouseY < 200:
-            if mouseX < 700:
-                selectNum = 4
-            elif mouseX < 800:
-                selectNum = 5
-            else:
-                selectNum = 6
-        elif mouseY < 300:
-            if mouseX < 700:
-                selectNum = 7
-            elif mouseX < 800:
-                selectNum = 8
-            else:
-                selectNum = 9
-        else:
-            if mouseX > 700 and mouseX < 800:
-                selectNum = 0
+                if mouseX > 700 and mouseX < 800:
+                    selectNum = 0
                 
-    if selectRow != -1 and selectCol != -1:
-        if selectNum == 0 or checkValid(grid, selectNum, selectRow, selectCol):
-            grid[selectRow][selectCol] = selectNum
-            selectNum = 0
-            answer =True
-        else:
-            if selectRow != -1 and selectCol != -1:
+        if selectRow != -1 and selectCol != -1:
+            if selectNum == 0 or checkValid(grid, selectNum, selectRow, selectCol):
+                grid[selectRow][selectCol] = selectNum
                 selectNum = 0
-                print("Invalid number")
-                answer =False
+                answer =True
+            else:
+                if selectRow != -1 and selectCol != -1:
+                    selectNum = 0
+                    print("Invalid number")
+                    answer =False
                 
                 
 def drawGameUI():
@@ -222,3 +232,18 @@ def newGame():
         grid[r][c] = 0
         locked[r][c] = False
         k+=1
+        
+        
+def openMenu():
+    fill(0)
+    rect(0,0,width,menuY)
+    textAlign(CENTER,CENTER)
+    textSize(50)
+    fill(255)
+    text("A2 Sudoku the Game",width/2,100)
+    textSize(25)
+    rect(width/2-100,230,200,40)
+    rect(width/2-100,280,200,40)
+    fill(0)
+    text("New Game",width/2,250)
+    text("Load Game",width/2,300)
